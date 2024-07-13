@@ -14,6 +14,12 @@ To use **Hades** you need to create an App on the [Spotify Developers Dashboard]
 ```shell
 pip install -r requirements.txt
 ```
+### Additional ! 
+
+```shell
+
+pip install 'urllib3<2'
+```
 
 ## Usage
 

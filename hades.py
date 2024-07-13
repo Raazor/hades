@@ -161,14 +161,17 @@ class Hades:
         )
         with YoutubeDL(self.get_ydl_opts(path)) as ydl:
             for track in tracks:
-                html = rq.urlopen(
-                    f"https://www.youtube.com/results?search_query={track['uri']}"
-                )
-                video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+                try:
+                    html = rq.urlopen(
+                        f"https://www.youtube.com/results?search_query={track['uri']}"
+                    )
+                    video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
 
-                if video_ids:
-                    url = "https://www.youtube.com/watch?v=" + video_ids[0]
-                    metadata = ydl.extract_info(url, download=False)
-                    downloaded_track = ydl.download([url])
+                    if video_ids:
+                        url = "https://www.youtube.com/watch?v=" + video_ids[0]
+                        metadata = ydl.extract_info(url, download=False)
+                        downloaded_track = ydl.download([url])
 
-                    self.add_track_metadata(metadata["id"], track, path)
+                        self.add_track_metadata(metadata["id"], track, path)
+                except Exception as error:
+                    print("An exception occurred:", error)
